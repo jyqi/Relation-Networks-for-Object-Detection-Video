@@ -1,8 +1,8 @@
 ---
 MXNET_VERSION: "mxnet_v1.1.0"
-output_path: "./output/rcnn/coco"
+output_path: "./models/relation/output/rcnn/coco"
 symbol: resnet_v1_101_rcnn_learn_nms_1024_attention_1024_pairwise_position_multi_head_16
-gpus: '0,1,2,3'
+gpus: '0'
 CLASS_AGNOSTIC: true
 SCALES:
 - 600
@@ -11,7 +11,7 @@ default:
   frequent: 100
   kvstore: device
 network:
-  pretrained: "./model/pretrained_model/coco_resnet_v1_101_rcnn"
+  pretrained: "./models/backbones/resnet_v1_101"
   pretrained_epoch: 8
   PIXEL_MEANS:
   - 103.06
