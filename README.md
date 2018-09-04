@@ -152,6 +152,12 @@ cd Relation-Networks-for-Object-Detection-Video
   ```
   If there is no other error message, MXNet should be installed successfully. 
 
+  If you get an error about not finding `libcudart.so` even after having your environment variables set, try running (with the correct paths):
+  ```
+  sudo sh -c "echo '/usr/local/cuda/lib64\n/usr/local/cuda/lib' >> /etc/ld.so.conf.d/nvidia.conf"
+  sudo ldconfig
+  ```
+
   ***Build from source (alternative way)***
 
   3.2 Clone MXNet v1.1.0 by
