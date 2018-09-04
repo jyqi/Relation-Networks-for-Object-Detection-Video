@@ -190,18 +190,21 @@ cd Relation-Networks-for-Object-Detection-Video
     ./data/coco/
     ```
     
-    1.2 [ImageNetDET 2015 (47 + .015 + .0014 GB)](http://image-net.org/challenges/LSVRC/2014/download-images-5jj5.php) (*unchanged from 2014 data*) and [ImageNetVID 2015 (86GB)](http://bvisionweb1.cs.unc.edu/ilsvrc2015/download-videos-3j16.php#vid)
+    1.2 [ImageNetDET 2015 (47 + .015 + .0014 GB)](http://image-net.org/challenges/LSVRC/2014/download-images-5jj5.php) (*unchanged from 2014 data*), [ImageNetLOC 2015 (160 GB)](https://www.kaggle.com/c/imagenet-object-localization-challenge/download/imagenet_object_localization.tar.gz) (from Kaggle) and [ImageNetVID 2015 (86GB)](http://bvisionweb1.cs.unc.edu/ilsvrc2015/download-videos-3j16.php#vid)
     ```
     ./data/ILSVRC2015/
     ./data/ILSVRC2015/Annotations/DET
+    ./data/ILSVRC2015/Annotations/LOC
     ./data/ILSVRC2015/Annotations/VID
     ./data/ILSVRC2015/Data/DET
+    ./data/ILSVRC2015/Data/LOC
     ./data/ILSVRC2015/Data/VID
     ./data/ILSVRC2015/ImageSets
     ```   
    
-    1.3 [PascalVOC 2012 (2 GB)](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/#devkit)
+    1.3 [PascalVOC 2007 (.439 GB)](http://pjreddie.com/media/files/VOCtrainval_06-Nov-2007.tar) and [PascalVOC 2012 (2 GB)](http://pjreddie.com/media/files/VOCtrainval_11-May-2012.tar)
     ```
+    ./data/VOCdevkit/VOC2007/
     ./data/VOCdevkit/VOC2012/
     ```
 
