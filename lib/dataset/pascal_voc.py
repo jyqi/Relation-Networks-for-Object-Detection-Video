@@ -174,7 +174,8 @@ class PascalVOC(IMDB):
                         'gt_overlaps': overlaps,
                         'max_classes': overlaps.argmax(axis=1),
                         'max_overlaps': overlaps.max(axis=1),
-                        'flipped': False})
+                        'flipped': False,
+                        'is_gt': np.ones(boxes.shape[0])})
         return roi_rec
 
     def load_selective_search_roidb(self, gt_roidb):
