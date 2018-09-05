@@ -81,7 +81,7 @@ class ImageNetLOC(IMDB):
         :param index: index of a specific image
         :return: full path of this image
         """
-        image_file = os.path.join(self.data_path, 'Data', 'LOC', 'CLS-LOC', index + '.jpg')
+        image_file = os.path.join(self.data_path, 'Data', 'LOC', 'CLS-LOC', self.split, index + '.JPEG')
         assert os.path.exists(image_file), 'Path does not exist: {}'.format(image_file)
         return image_file
 
