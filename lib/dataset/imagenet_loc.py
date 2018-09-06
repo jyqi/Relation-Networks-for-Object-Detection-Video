@@ -62,8 +62,8 @@ class ImageNetLOC(IMDB):
         self.classes = ['__background__']
         self.classes_map = ['__background__']
         for line in lines:
-            self.classes.append(line[:9])
-            self.classes_map.append(line[10:])
+            self.classes_map.append(line[:9])
+            self.classes.append(line[10:])
 
     def load_image_set_index(self):
         """
@@ -134,7 +134,7 @@ class ImageNetLOC(IMDB):
         gt_classes = np.zeros((num_objs), dtype=np.int32)
         overlaps = np.zeros((num_objs, self.num_classes), dtype=np.float32)
 
-        class_to_index = dict(zip(self.classes, range(self.num_classes)))
+        class_to_index = dict(zip(self.classes_map, range(self.num_classes)))
         # Load object bounding boxes into a data frame.
         for ix, obj in enumerate(objs):
             bbox = obj.find('bndbox')
@@ -247,7 +247,7 @@ class ImageNetLOC(IMDB):
         print 'VOC07 metric'
         info_str += 'VOC07 metric'
         info_str += '\n'
-        for cls_ind, cls in enumerate(self.classes):
+        for cls_ind, cls in enumerate(self.classes_map):
             if cls == '__background__':
                 continue
             filename = self.get_result_file_template().format(cls)
@@ -265,7 +265,7 @@ class ImageNetLOC(IMDB):
         info_str += '\n'
         # @0.7
         aps = []
-        for cls_ind, cls in enumerate(self.classes):
+        for cls_ind, cls in enumerate(self.classes_map):
             if cls == '__background__':
                 continue
             filename = self.get_result_file_template().format(cls)
