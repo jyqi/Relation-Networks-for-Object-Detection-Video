@@ -21,7 +21,11 @@ def create_logger(root_output_path, cfg, image_set):
     if not os.path.exists(config_output_path):
         os.makedirs(config_output_path)
 
-    image_sets = [iset for iset in image_set.split('+')]
+    if isinstance(image_set, basestring):
+        image_sets = [iset for iset in image_set.split('+')]
+    else:
+        image_sets = [item for sublist in image_set for item in sublist]
+
     final_output_path = os.path.join(config_output_path, '{}'.format('_'.join(image_sets)))
     if not os.path.exists(final_output_path):
         os.makedirs(final_output_path)
