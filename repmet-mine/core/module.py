@@ -983,6 +983,7 @@ class MutableModule(BaseModule):
             for nbatch, data_batch in enumerate(train_data):
                 if monitor is not None:
                     monitor.tic()
+
                 self.forward_backward(data_batch)
                 self.update()
                 self.update_metric(eval_metric, data_batch.label)
@@ -1071,6 +1072,7 @@ class MutableModule(BaseModule):
     def get_outputs(self, merge_multi_context=True):
         assert self.binded and self.params_initialized
         return self._curr_module.get_outputs(merge_multi_context=merge_multi_context)
+
     def get_input_grads(self, merge_multi_context=True):
         assert self.binded and self.params_initialized and self.inputs_need_grad
         return self._curr_module.get_input_grads(merge_multi_context=merge_multi_context)

@@ -56,7 +56,6 @@ dataset:
   NUM_CLASSES: 121 #TODO: what do we give this?
   dataset: [PascalVOC,ImageNetLOC]
   dataset_path: ["./data/VOCdevkit", "./data/ILSVRC2015"]
-  class_path: "./data/.txtx"
   image_set: [[2007_trainval,2012_trainval],[100_train_loc]]
   root_path: "./data"
   test_image_set: LOC_214_trainval # LOC_214_train # LOC_298_trainval # LOC_298_train
