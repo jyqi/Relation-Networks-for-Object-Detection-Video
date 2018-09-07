@@ -53,13 +53,13 @@ network:
   - 8
   NUM_ANCHORS: 3
 dataset:
-  NUM_CLASSES: 81
-  dataset: coco
-  dataset_path: "./data/coco"
-  image_set: train2014+valminusminival2014
-  # image_set: minival2014
+  NUM_CLASSES: 121 #TODO: what do we give this?
+  dataset: [PascalVOC,ImageNetLOC]
+  dataset_path: ["./data/VOCdevkit", "./data/ILSVRC2015"]
+  class_path: "./data/.txtx"
+  image_set: [[2007_trainval,2012_trainval],[100_train_loc]]
   root_path: "./data"
-  test_image_set: minival2014
+  test_image_set: LOC_214_trainval # LOC_214_train # LOC_298_trainval # LOC_298_train
   proposal: rpn
 TRAIN:
   lr: 0.01
@@ -71,7 +71,7 @@ TRAIN:
   wd: 0.0001
   begin_epoch: 0
   end_epoch: 7
-  model_prefix: 'fpn_coco'
+  model_prefix: 'fpn_ptv_l100tv'
   # whether resume training
   RESUME: false
   # whether flip image

@@ -163,6 +163,8 @@ def get_triple_image(roidb, config):
         new_rec['boxes'] = roi_rec['boxes'].copy() * im_scale
         new_rec['im_info'] = im_info
         processed_roidb.append(new_rec)
+        with open('log3.txt', 'a') as f:
+            f.write("%s\t%s\n" % (roi_rec['image'], str(im_info)))
     return processed_ims, processed_bef_ims, processed_aft_ims, processed_roidb
 
 

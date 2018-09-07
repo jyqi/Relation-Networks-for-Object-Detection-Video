@@ -237,7 +237,7 @@ class IMDB(object):
                      'height': roi_rec['height'],
                      'width': roi_rec['width'],
                      'boxes': boxes,
-                     'gt_classes': roidb[i]['gt_classes'],
+                     'gt_classes': roidb[i]['gt_classes'].copy(), # need to do deep copy so when we change classes it doesn't change the flipped ones again
                      'gt_overlaps': roidb[i]['gt_overlaps'],
                      'max_classes': roidb[i]['max_classes'],
                      'max_overlaps': roidb[i]['max_overlaps'],

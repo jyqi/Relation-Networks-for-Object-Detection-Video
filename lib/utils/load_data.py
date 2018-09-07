@@ -12,12 +12,14 @@ from dataset import *
 
 
 def load_gt_roidb(dataset_name, image_set_name, root_path, dataset_path, result_path=None,
-                  flip=False):
+                  flip=False, return_classmap=False):
     """ load ground truth roidb """
     imdb = eval(dataset_name)(image_set_name, root_path, dataset_path, result_path)
     roidb = imdb.gt_roidb()
     if flip:
         roidb = imdb.append_flipped_images(roidb)
+    if return_classmap:
+        return roidb, imdb.classes_map
     return roidb
 
 
@@ -32,7 +34,30 @@ def load_proposal_roidb(dataset_name, image_set_name, root_path, dataset_path, r
         roidb = imdb.append_flipped_images(roidb)
     return roidb
 
+def fix_classes(roibds, classmaps):
+    classes = ['__background__']
+    for i in range(len(roibds)):
+        classmap = classmaps[i]
+        for cls in classmap:
+            if cls not in classes:
+                classes.append(cls)
 
+    for i in range(len(roibds)):
+        classmap = classmaps[i]
+        for j in range(len(roibds[i])):
+            overlaps = np.zeros((len(roibds[i][j]['gt_classes']), len(classes)), dtype=np.float32)
+
+            for k in range(len(roibds[i][j]['gt_classes'])):
+                current_class_index = roibds[i][j]['gt_classes'][k]
+                new_class_index = classes.index(classmap[current_class_index])
+                roibds[i][j]['gt_classes'][k] = new_class_index
+                overlaps[k, new_class_index] = 1.0
+
+            roibds[i][j]['gt_overlaps'] = overlaps
+            roibds[i][j]['max_classes'] = overlaps.argmax(axis=1)
+            roibds[i][j]['max_overlaps'] = overlaps.max(axis=1)
+
+    return roibds, classes
 
 def merge_roidb(roidbs):
     """ roidb are list, concat them together """

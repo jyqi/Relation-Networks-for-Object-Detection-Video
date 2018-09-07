@@ -42,7 +42,7 @@ class ImageNetLOC(IMDB):
         self.data_path = dataset_path
 
         self.load_classes()
-        self.num_classes = len(self.classes)
+        self.num_classes = len(self.classes_map)
         self.load_image_set_index()
         self.num_images = len(self.image_set_index)
         print 'num_images', self.num_images

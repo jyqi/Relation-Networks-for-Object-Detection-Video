@@ -48,7 +48,7 @@ from core.loader import PyramidAnchorIterator
 from core import callback, metric
 from core.module import MutableModule
 from utils.create_logger import create_logger
-from utils.load_data import load_gt_roidb, merge_roidb, filter_roidb
+from utils.load_data import load_gt_roidb, merge_roidb, filter_roidb, fix_classes
 from utils.load_model import load_param
 from utils.PrefetchingIter import PrefetchingIterV2 as PrefetchingIter
 from utils.lr_scheduler import WarmupMultiFactorScheduler
@@ -76,16 +76,22 @@ def train_net(args, ctx, pretrained, epoch, prefix, begin_epoch, end_epoch, lr, 
     pprint.pprint(config)
     logger.info('training config:{}\n'.format(pprint.pformat(config)))
 
-    # load dataset and prepare imdb for training
-    image_sets = [iset for iset in config.dataset.image_set.split('+')]
-    roidbs = [load_gt_roidb(config.dataset.dataset, image_set, config.dataset.root_path, config.dataset.dataset_path,
-                            flip=config.TRAIN.FLIP)
-              for image_set in image_sets]
+    # load datasets and prepare imdb for training
+    roidbs = []
+    classmaps = []
+    for i in range(len(config.dataset.dataset)):
+        for image_set in config.dataset.image_set[i]:
+            roibdd, classmap = load_gt_roidb(config.dataset.dataset[i], image_set, config.dataset.root_path,
+                                             config.dataset.dataset_path[i],
+                                             flip=config.TRAIN.FLIP, return_classmap=True)
+            roidbs.append(roibdd)
+            classmaps.append(classmap)
+
+    roidbs, classmap = fix_classes(roidbs, classmaps)
     roidb = merge_roidb(roidbs)
     roidb = filter_roidb(roidb, config)
 
     # load training data
-
     train_data = PyramidAnchorIterator(feat_sym, roidb, config, batch_size=input_batch_size, shuffle=config.TRAIN.SHUFFLE,
                                        ctx=ctx, feat_strides=config.network.RPN_FEAT_STRIDE, anchor_scales=config.network.ANCHOR_SCALES,
                                        anchor_ratios=config.network.ANCHOR_RATIOS, aspect_grouping=config.TRAIN.ASPECT_GROUPING,
