@@ -167,7 +167,7 @@ class ImageNetVID(IMDB):
                 continue
             valid_objs[ix] = True
             cls = class_to_index[obj.find('name').text.lower().strip()]
-            boxes[ix, :] = [x1, y1, x2, y2]
+            boxes[ix, :] = [max(x1,0), max(y1,0), x2, y2]
             gt_classes[ix] = cls
             overlaps[ix, cls] = 1.0
 

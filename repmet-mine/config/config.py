@@ -22,6 +22,7 @@ config.output_path = ''
 config.symbol = ''
 config.gpus = ''
 config.CLASS_AGNOSTIC = True
+config.EMBEDDING_SIZE = 256
 config.SCALES = [(600, 1000)]  # first is scale (the shorter side); second is max size
 config.TEST_SCALES = [(600, 1000)]
 # default training
@@ -56,6 +57,9 @@ config.dataset.NUM_CLASSES = 21
 config.TRAIN = edict()
 
 config.TRAIN.lr = 0
+config.TRAIN.nshot = 5
+config.TRAIN.mway = 5
+config.TRAIN.k = 5
 config.TRAIN.lr_step = ''
 config.TRAIN.lr_factor = 0.1
 config.TRAIN.warmup = False
