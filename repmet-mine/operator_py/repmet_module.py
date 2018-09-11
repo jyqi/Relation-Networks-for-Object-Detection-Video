@@ -20,38 +20,44 @@ class RepmetOperator(mx.operator.CustomOp):
         self._emb_size = emb_size
         self._mem = mx.nd.zeros((self._m, self._n, self._emb_size))
         self._reps = mx.nd.zeros((self._m, self._k, self._emb_size))
+        self.index = 0
 
     def forward(self, is_train, req, in_data, out_data, aux):
 
         embs      = in_data[0]
         labels    = in_data[1]
+        self._mem[self.index] = embs[0][0]
+        self.index += 1
+        print(self._mem)
+
         print('debuggin')
 
-        # check if input embs is batch > 1 and check labels
-        # it likely isn't so will need to use memory to store
-        # keep checking memory for fullness and when full give a loss value other than 0
-        # that is do nothing until the memory is filled
-
-        # need to also work out how to use the dets here, which ones we ignore etc.
+        # assert batch size is 1, we will use mem to store
 
 
-        # per_roi_loss_cls = mx.nd.SoftmaxActivation(cls_score) + 1e-14
-        # per_roi_loss_cls = per_roi_loss_cls.asnumpy()
-        # per_roi_loss_cls = per_roi_loss_cls[np.arange(per_roi_loss_cls.shape[0], dtype='int'), labels.astype('int')]
-        # per_roi_loss_cls = -1 * np.log(per_roi_loss_cls)
-        # per_roi_loss_cls = np.reshape(per_roi_loss_cls, newshape=(-1,))
-        #
-        # per_roi_loss_bbox = bbox_weights * mx.nd.smooth_l1((bbox_pred - bbox_targets), scalar=1.0)
-        # per_roi_loss_bbox = mx.nd.sum(per_roi_loss_bbox, axis=1).asnumpy()
-        #
-        # top_k_per_roi_loss = np.argsort(per_roi_loss_cls + per_roi_loss_bbox)
-        # labels_ohem = labels
-        # labels_ohem[top_k_per_roi_loss[::-1][self._roi_per_img:]] = -1
-        # bbox_weights_ohem = bbox_weights.asnumpy()
-        # bbox_weights_ohem[top_k_per_roi_loss[::-1][self._roi_per_img:]] = 0
-        #
-        # labels_ohem = mx.nd.array(labels_ohem)
-        # bbox_weights_ohem = mx.nd.array(bbox_weights_ohem)
+        # which detections/anchors do we ignore
+        # option 1: ignore all that don't overlap with particular single instance, and have keep rest as other as usual
+        #           feature is avg of these boxes
+
+        # option 2: ignore all of different class, allowing multiple instances on same class per image
+        #           feature is mean of these boxes
+
+        # option 3: take the best overlapping box rather than mean them
+
+        # ^^^^^^^^^^^^ These flags should be passed in? and decided in batch formations
+        #              this can allow us to select individual instances and leave them out of future batches
+
+        # what to do with 'other class'? what did we do before?
+
+        # filter to get the box/boxes
+
+        # avg the boxes
+
+        # check memory for fullness
+        # when full calc loss and return
+        # otherwise let's just add to the mem, and return 0
+
+        # is loss per box or single value?
 
         loss = in_data[1]
 
